@@ -4,6 +4,7 @@ This script runs a local webserver that lets you remove duplicate photos one by 
 
 - Install [https://github.com/leonickl/wastebasket](wastebasket), which is used as a trash backend; so the program does not delete any files, but move them to the wastebasket folder.
 - Clone this repository (`git clone https://github.com/leonickl/duplicate-finder`).
+- Run `composer install` to install dependencies.
 - Create `.env` file with `PATH=/path/to/your/photos`.
 - Run `./run migrate` to initialize the database.
 - Run `./run server` to start the web server and open [http://localhost:8085/](localhost:8085). the port can be adjusted in `config.php`.
