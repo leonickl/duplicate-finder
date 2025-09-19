@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use App\File;
-use App\HashTree;
 use Exception;
 use PXP\Core\Controllers\Controller;
+use PXP\Core\Lib\Router;
 
 class MainController extends Controller
 {
@@ -39,56 +39,39 @@ class MainController extends Controller
 
     public function filter()
     {
-        $files = File::make(config('path'))->recursive();
-
-        $tree = perma('tree');
-        $pairs = perma('pairs');
-
-        if ($tree === null || $pairs === null) {
-            $tree = HashTree::new();
-
-            $pairs = c();
-
-            foreach ($files as $file) {
-                if ($file->isDir()) {
-                    continue;
-                }
-
-                $hash = $file->hash();
-
-                if ($duplicate = $tree->get($hash)) {
-                    $pairs = $pairs->with([(string) $file, (string) $duplicate]);
-                } else {
-                    $tree->put($hash, $file);
-                }
-            }
-
-            perma([
-                'tree' => $tree,
-                'pairs' => $pairs,
-            ]);
-        }
-
-        $pairs = perma('pairs');
-
-        $origin = request('origin');
-        $copy = request('copy');
-
-        if ($origin !== null && $copy === null) {
-            $pairs = $pairs->filter(fn (array $pair) => str_starts_with($pair[0], $origin) || str_starts_with($pair[0], $origin));
-        }
-
-        if ($origin !== null && $copy !== null) {
-            $pairs = $pairs
-                ->filter(fn (array $pair) => str_starts_with($pair[0], $origin) && str_starts_with($pair[1], $copy)
-                    || str_starts_with($pair[0], $copy) && str_starts_with($pair[1], $origin));
-        }
+        $files = \App\Models\File::duplicates();
 
         return view('pairs', [
-            'pairs' => $pairs,
-            'origin' => $origin,
-            'copy' => $copy,
+            'pairs' => $files,
+            // 'origin' => $origin,
+            // 'copy' => $copy,
         ]);
+
+        // $origin = request('origin');
+        // $copy = request('copy');
+
+        // if ($origin !== null && $copy === null) {
+        //     $pairs = $pairs->filter(fn (array $pair) => str_starts_with($pair[0], $origin) || str_starts_with($pair[0], $origin));
+        // }
+
+        // if ($origin !== null && $copy !== null) {
+        //     $pairs = $pairs
+        //         ->filter(fn (array $pair) => str_starts_with($pair[0], $origin) && str_starts_with($pair[1], $copy)
+        //             || str_starts_with($pair[0], $copy) && str_starts_with($pair[1], $origin));
+        // }
+    }
+
+    public function removeFile(int $id)
+    {
+        $file = \App\Models\File::find($id);
+
+        $output = new File($file->path)->waste();
+
+        if(str_contains($output, "Wasted:")) {
+            $file->delete();
+        }
+
+        return Router::redirect('/pairs');
     }
 
     public function remove()

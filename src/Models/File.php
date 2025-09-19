@@ -19,7 +19,7 @@ class File extends Model
     public static function duplicates()
     {
         $hashes = DB::init()
-            ->select('select hash from files group by hash having count(*) > 1;')
+            ->select('select hash from files where deleted_at is null group by hash having count(*) > 1;')
             ->map(fn($record) => $record['hash']);
 
         $pairs = [];

@@ -16,7 +16,7 @@ class File
 
         return $file;
     }
-
+    
     public function isDir(): bool
     {
         return is_dir($this->path);
@@ -26,7 +26,7 @@ class File
     {
         return new Directory($this->path);
     }
-
+    
     public function __toString(): string
     {
         return $this->path;
@@ -35,5 +35,12 @@ class File
     public function hash(): string
     {
         return hash_file('sha256', $this->path);
+    }
+
+    public function waste()
+    {
+        $path = str_replace(" ", "\\ ", $this->path);
+
+        return shell_exec("waste $path");
     }
 }
