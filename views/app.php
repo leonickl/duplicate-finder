@@ -25,8 +25,7 @@
 
         main {
             background: #ffffff;
-            /* max-width: 800px; */
-            width: 100%;
+            width: max-content;
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
@@ -60,7 +59,6 @@
         }
 
         button {
-            margin-top: 1.5rem;
             padding: 0.7rem 1.5rem;
             color: white;
             border: none;

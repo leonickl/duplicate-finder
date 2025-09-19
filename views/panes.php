@@ -1,66 +1,67 @@
 <h1>Pane View</h1>
 
-<div class="actions">
+<div style="display: flex; flex-direction: row; gap: 20px;">
 
-    <form action="/panes" method="get">
-        <input type="text" value="<?= $left ?>" name="left" />
-        <input type="text" value="<?= $right ?>" name="right" />
+    <div class="pane-column">
 
-        <input type="submit" name="filter" value="Filter" />
-    </form>
+    <div class="actions">
+        <form action="/panes" method="get">
+            <input type="text" value="<?= $leftPath ?>" name="left" />
+            <input type="hidden" value="<?= $rightPath ?>" name="right" />
+            
+            <input type="submit" value="Filter" />
+        </form>
 
-</div>
-
-<div style="display: flex; flex-direction: row">
-
-    <div style="display: flex; flex-direction: column; gap: 20px;">
-
-        <?php foreach($leftFiles as $hash => $files): ?>
+        <form action="/remove-folder/<?= urlencode($leftPath) ?>" method="post">
+            <button type="submit" class="btn-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                    <path color="#c12929" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                </svg>
+            </button>
+        </form>
+    </div>
+        
+        <?php foreach($leftFiles as $path): ?>
             <div class="pair">
 
-                <div>
-                    <img src="/image?file=<?= urlencode($files[0]->path) ?>" />
+                <div class="img-wrapper">
+                    <img src="/image?file=<?= urlencode($path) ?>" />
                 </div>
 
-                <?php foreach($files as $file): ?>
-
-                    <span>
-                        <?= $file->path ?>
-                        <a href="/remove/<?= $file->id ?>?__method=post">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                <path color="#c12929" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                            </svg>
-                        </a>
-                    </span>
-
-                <?php endforeach ?>
+                <span><?= $path ?></span>
 
             </div>
         <?php endforeach ?>
 
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 20px;">
+    <div class="pane-column">
 
-        <?php foreach($rightFiles as $hash => $files): ?>
+    <div class="actions">
+        <form action="/panes" method="get">
+            <input type="hidden" value="<?= $leftPath ?>" name="left" />
+            <input type="text" value="<?= $rightPath ?>" name="right" />
+            
+            <input type="submit" value="Filter" />
+        </form>
+
+        <form action="/remove-folder/<?= urlencode($rightPath) ?>" method="post">
+            <button type="submit" class="btn-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                    <path color="#c12929" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                </svg>
+            </button>
+        </form>
+    </div>
+        
+        <?php foreach($rightFiles as $path): ?>
             <div class="pair">
 
-                <div>
-                    <img src="/image?file=<?= urlencode($files[0]->path) ?>" />
+                <div class="img-wrapper">
+                    <img src="/image?file=<?= urlencode($path) ?>" />
                 </div>
 
-                <?php foreach($files as $file): ?>
-
-                    <span>
-                        <?= $file->path ?>
-                        <a href="/remove/<?= $file->id ?>?__method=post">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                <path color="#c12929" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                            </svg>
-                        </a>
-                    </span>
-
-                <?php endforeach ?>
+                <span><?= $path ?></span>
 
             </div>
         <?php endforeach ?>
@@ -71,12 +72,31 @@
 
 <style>
 
+    form {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        gap: 30px;
+    }
+
+    .pane-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
     .pair {
         display: flex;
         flex-direction: column;
         gap: 5px;
     }
 
+    .img-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
 
     .actions {
         display: flex;
@@ -93,6 +113,7 @@
         border: 1px solid #cbd5e1;
         border-radius: 0.5rem;
         flex: 1;
+        width: 400px;
     }
 
     input[type="submit"] {
@@ -141,6 +162,14 @@
     span a {
         position: relative;
         top: 3px;
+    }
+
+    .btn-danger {
+        background-color: #c12929;
+    }
+
+    .btn-danger path {
+        color: white;
     }
 
 </style>

@@ -51,6 +51,35 @@ class MainController extends Controller
         return Router::redirect('/all');
     }
 
+    public function removeFolder(string $path)
+    {
+        $path = urldecode($path);
+
+        if(trim($path, '/ ') === '') {
+            throw new Exception('invalid path given');
+        }
+
+        $files = c(...\App\Models\File::duplicates())
+            ->map(function(Collection $files) use ($path) {
+                foreach($files as $file) {
+                    if(str_starts_with($file->path, $path)) {
+                        return str_replace(' ' , "\\ ", $file->path);
+                    }
+                }
+
+                return null;
+            })
+            ->filter()
+            ->values()
+            ->join(' ');
+
+        $output = shell_exec("waste $files");
+
+        return view('console', [
+            'lines' => explode("\ ", $output),
+            'back' => '/panes',
+        ]);
+    }
 
     public function image()
     {
@@ -65,30 +94,36 @@ class MainController extends Controller
 
     public function panes()
     {
-        $leftPath = rtrim(request()->left ?? config('path'), '/').'/';
-        $rightPath = rtrim(request()->right ?? config('path'), '/').'/';
+        $leftPath = rtrim(request('left') ?? config('path'), '/').'/';
+        $rightPath = rtrim(request('right') ?? config('path'), '/').'/';
 
         $files = c(...\App\Models\File::duplicates());
 
-        $leftFiles = $files->filter(function(Collection $files) use ($leftPath) {
-            foreach($files as $file) {
-                if(str_starts_with($file->path, $leftPath)) {
-                    return true;
+        $leftFiles = $files
+            ->map(function(Collection $files) use ($leftPath) {
+                foreach($files as $file) {
+                    if(str_starts_with($file->path, $leftPath)) {
+                        return $file->path;
+                    }
                 }
-            }
 
-            return false;
-        });
+                return null;
+            })
+            ->filter()
+            ->values();
 
-        $rightFiles = $files->filter(function(Collection $files) use ($rightPath) {
-            foreach($files as $file) {
-                if(str_starts_with($file->path, $rightPath)) {
-                    return true;
+        $rightFiles = $files
+            ->map(function(Collection $files) use ($rightPath) {
+                foreach($files as $file) {
+                    if(str_starts_with($file->path, $rightPath)) {
+                        return $file->path;
+                    }
                 }
-            }
 
-            return false;
-        });
+                return null;
+            })
+            ->filter()
+            ->values();
 
         return view('panes', [
             'leftPath' => $leftPath,
@@ -98,48 +133,4 @@ class MainController extends Controller
             'rightFiles' => $rightFiles,
         ]);
     }
-
-    // public function remove()
-    // {
-    //     $pairs = perma('pairs');
-
-    //     if ($pairs === null) {
-    //         throw new Exception('pairs must not be null');
-    //     }
-
-    //     $origin = request('origin');
-    //     $copy = request('copy');
-
-    //     if (! $origin || ! $copy) {
-    //         throw new Exception('origin and copy must be given');
-    //     }
-
-    //     perma([
-    //         'pairs' => $pairs->filter(fn (array $pair) => ! (str_starts_with($pair[0], $origin) && str_starts_with($pair[1], $copy)
-    //             || str_starts_with($pair[0], $copy) && str_starts_with($pair[1], $origin))),
-    //     ]);
-
-    //     $paths = $pairs
-    //         ->map(function (array $pair) use ($origin, $copy) {
-    //             if (str_starts_with($pair[0], $origin) && str_starts_with($pair[1], $copy)) {
-    //                 return $pair[1];
-    //             }
-
-    //             if (str_starts_with($pair[0], $copy) && str_starts_with($pair[1], $origin)) {
-    //                 return $pair[0];
-    //             }
-
-    //             return null;
-    //         })
-    //         ->filter()
-    //         ->map(fn (string $path) => str_replace(' ', '\\ ', $path))
-    //         ->join(' ');
-
-    //     $result = shell_exec("waste $paths");
-
-    //     return view('console', [
-    //         'lines' => [$result],
-    //         'back' => '/pairs',
-    //     ]);
-    // }
 }
