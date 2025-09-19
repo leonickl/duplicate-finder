@@ -6,10 +6,14 @@ use App\File;
 use Exception;
 use PXP\Core\Controllers\Controller;
 use PXP\Core\Lib\Collection;
-use PXP\Core\Lib\Router;
 
 class MainController extends Controller
 {
+    public function main()
+    {
+        return view('main');
+    }
+
     public function scan()
     {
         $files = File::make(config('path'))->recursive();

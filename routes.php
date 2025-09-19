@@ -3,6 +3,8 @@
 use App\Controllers\MainController;
 use PXP\Core\Lib\Route;
 
+Route::get('/')->do(MainController::class, 'main');
+
 Route::get('/all')->do(MainController::class, 'all');
 Route::get('/panes')->do(MainController::class, 'panes');
 
