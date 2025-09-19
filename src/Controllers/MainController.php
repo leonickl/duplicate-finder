@@ -9,6 +9,25 @@ use PXP\Core\Controllers\Controller;
 
 class MainController extends Controller
 {
+    public function scan()
+    {
+        $files = File::make(config('path'))->recursive();
+
+        $counter = 0;
+
+        foreach ($files as $file) {
+            $record = \App\Models\File::findByOrNull('path', $file->path);
+
+            if (! $record) {
+                \App\Models\File::create(path: $file->path, hash: $file->hash());
+
+                $counter++;
+            }
+        }
+
+        return ['counter' => $counter];
+    }
+
     public function pairs()
     {
         if (request('remove')) {
@@ -20,7 +39,7 @@ class MainController extends Controller
 
     public function filter()
     {
-        $files = File::make('/home/leo/Pictures')->recursive();
+        $files = File::make(config('path'))->recursive();
 
         $tree = perma('tree');
         $pairs = perma('pairs');
@@ -88,7 +107,7 @@ class MainController extends Controller
         }
 
         perma([
-            'pairs' => $pairs->filter(fn(array $pair) => !(str_starts_with($pair[0], $origin) && str_starts_with($pair[1], $copy)
+            'pairs' => $pairs->filter(fn (array $pair) => ! (str_starts_with($pair[0], $origin) && str_starts_with($pair[1], $copy)
                 || str_starts_with($pair[0], $copy) && str_starts_with($pair[1], $origin))),
         ]);
 
@@ -112,7 +131,7 @@ class MainController extends Controller
 
         return view('console', [
             'lines' => [$result],
-            'back' => '/pairs'
+            'back' => '/pairs',
         ]);
     }
 
