@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'PXP App',
+    'title' => 'Duplicate Finder',
     'domain' => 'localhost',
     'port' => 8085,
     'path' => env('PATH'),
