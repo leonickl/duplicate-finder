@@ -14,7 +14,7 @@ class MainController extends Controller
     {
         $files = File::make(config('path'))->recursive();
 
-        $counter = 0;
+        $added = 0;
 
         foreach ($files as $file) {
             $record = \App\Models\File::findByOrNull('path', $file->path);
@@ -22,11 +22,24 @@ class MainController extends Controller
             if (! $record) {
                 \App\Models\File::create(path: $file->path, hash: $file->hash());
 
-                $counter++;
+                $added++;
             }
         }
 
-        return ['counter' => $counter];
+        $removed = 0;
+
+        foreach(\App\Models\File::all() as $file) {
+            if(! $file->file()->exists()) {
+                $file->delete();
+
+                $removed++;
+            }
+        }
+
+        return [
+            'added' => $added,
+            'removed' => $removed,
+        ];
     }
 
     public function all()
@@ -42,7 +55,7 @@ class MainController extends Controller
     {
         $file = \App\Models\File::find($id);
 
-        $output = new File($file->path)->waste();
+        $output = $file->file()->waste();
 
         if(str_contains($output, "Wasted:")) {
             $file->delete();

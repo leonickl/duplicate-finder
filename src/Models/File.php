@@ -30,4 +30,9 @@ class File extends Model
 
         return $pairs;
     }
+
+    public function file()
+    {
+        return new \App\File($this->path);
+    }
 }

@@ -16,7 +16,12 @@ class File
 
         return $file;
     }
-    
+
+    public function exists()
+    {
+        return is_file($this->path);
+    }
+
     public function isDir(): bool
     {
         return is_dir($this->path);
