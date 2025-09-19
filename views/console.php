@@ -23,4 +23,8 @@
         background-color: #2563eb;
     }
 
+    pre {
+        margin-bottom: 20px;
+    }
+
 </style>

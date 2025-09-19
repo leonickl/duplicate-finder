@@ -48,7 +48,10 @@ class MainController extends Controller
             $file->delete();
         }
 
-        return Router::redirect('/all');
+        return view('console', [
+            'lines' => explode("\ ", $output),
+            'back' => '/all',
+        ]);
     }
 
     public function removeFolder(string $path)
@@ -63,17 +66,22 @@ class MainController extends Controller
             ->map(function(Collection $files) use ($path) {
                 foreach($files as $file) {
                     if(str_starts_with($file->path, $path)) {
-                        return str_replace(' ' , "\\ ", $file->path);
+                        return $file;
                     }
                 }
 
                 return null;
             })
-            ->filter()
+            ->filter();
+
+        $names = $files
+            ->map(fn(\App\Models\File $file) => str_replace(' ' , "\\ ", $file->path))
             ->values()
             ->join(' ');
 
-        $output = shell_exec("waste $files");
+        $output = shell_exec("waste $names");
+
+        $files->each(fn(\App\Models\File $file) => $file->delete());
 
         return view('console', [
             'lines' => explode("\ ", $output),
