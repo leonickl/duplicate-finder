@@ -1,16 +1,4 @@
-<h1>Pairs</h1>
-
-<div class="actions">
-
-    <form action="/pairs" method="get">
-        <input type="text" value="<?= $origin ?>" name="origin" />
-        <input type="text" value="<?= $copy ?>" name="copy" />
-
-        <input type="submit" name="filter" value="Filter" />
-        <input type="submit" name="remove" value="Remove" />
-    </form>
-
-</div>
+<h1>All Duplicates</h1>
 
 <div style="display: flex; flex-direction: column; gap: 20px;">
 
@@ -25,7 +13,7 @@
 
                 <span>
                     <?= $file->path ?>
-                    <a href="/remove/<?= $file->id ?>">
+                    <a href="/remove/<?= $file->id ?>?__method=post">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                             <path color="#c12929" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
                         </svg>
