@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b449eb4298e8fe92e091af069894ead",
+    "content-hash": "246e0ba1cee26af59ad4964f1c88e8d3",
     "packages": [
         {
             "name": "leonickl/pxp-core",
@@ -12,13 +12,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/leonickl/pxp-core.git",
-                "reference": "400bf4cc702918f58aa7357df1913b66fed27099"
+                "reference": "dd991ddff22535220e41882afd6db9ec1927dbc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/400bf4cc702918f58aa7357df1913b66fed27099",
-                "reference": "400bf4cc702918f58aa7357df1913b66fed27099",
+                "url": "https://api.github.com/repos/leonickl/pxp-core/zipball/dd991ddff22535220e41882afd6db9ec1927dbc9",
+                "reference": "dd991ddff22535220e41882afd6db9ec1927dbc9",
                 "shasum": ""
+            },
+            "require": {
+                "php": "8.4.*"
             },
             "require-dev": {
                 "laravel/pint": "^1.24"
@@ -26,13 +29,14 @@
             "default-branch": true,
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "PXP\\Core\\": "src/"
-                },
                 "files": [
                     "functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "PXP\\Core\\": "src/"
+                }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
                     "name": "Leo Nickl",
@@ -41,10 +45,10 @@
             ],
             "description": "Core functionality for leonickl/pxp",
             "support": {
-                "source": "https://github.com/leonickl/pxp-core/tree/main",
-                "issues": "https://github.com/leonickl/pxp-core/issues"
+                "issues": "https://github.com/leonickl/pxp-core/issues",
+                "source": "https://github.com/leonickl/pxp-core/tree/main"
             },
-            "time": "2025-09-19T21:59:15+00:00"
+            "time": "2025-09-25T11:25:10+00:00"
         }
     ],
     "packages-dev": [
@@ -116,16 +120,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.28",
+            "version": "2.1.29",
             "source": {
                 "type": "git",
-                "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "578fa296a166605d97b94091f724f1257185d278"
+                "url": "https://github.com/phpstan/phpstan-phar-composer-source.git",
+                "reference": "git"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/578fa296a166605d97b94091f724f1257185d278",
-                "reference": "578fa296a166605d97b94091f724f1257185d278",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d618573eed4a1b6b75e37b2e0b65ac65c885d88e",
+                "reference": "d618573eed4a1b6b75e37b2e0b65ac65c885d88e",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +174,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-19T08:58:49+00:00"
+            "time": "2025-09-25T06:58:18+00:00"
         }
     ],
     "aliases": [],
@@ -181,6 +185,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "php": "8.4.*",
         "ext-pdo": "*"
     },
     "platform-dev": {},

@@ -4,6 +4,7 @@
     "type": "project",
     "version": "1.0.2",
     "require": {
+        "php": "8.4.*",
         "ext-pdo": "*",
         "leonickl/pxp-core": "dev-main"
     },
@@ -24,11 +25,5 @@
     "require-dev": {
         "laravel/pint": "^1.24",
         "phpstan/phpstan": "^2.1"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/leonickl/pxp-core"
-        }
-    ]
+    }
 }
